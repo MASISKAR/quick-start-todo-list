@@ -1,13 +1,34 @@
 import logo from './logo.svg';
+import Hello from './Hello';
 import './App.css';
 
+
+
+function Name(){
+const name = 'John Smith';
+  return  (
+    <div>
+  {name}
+  <Hello name='John' age={23}/>
+  </div>
+  );
+}
+
+
+
+
 function App() {
+
+  const message = 'Hello, I am your first React code.';
+
   return (
     <div className="App">
       <header className="App-header">
+        <Name />
+        <Name />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+        {message}
         </p>
         <a
           className="App-link"
@@ -23,3 +44,4 @@ function App() {
 }
 
 export default App;
+
