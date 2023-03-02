@@ -1,6 +1,6 @@
 
 function Hello(props){
-  console.log('props', props);
+  // console.log('props', props);
 
     return  (
       <h2>
