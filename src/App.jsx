@@ -1,110 +1,90 @@
-import {Component} from 'react';
-import logo from './logo.svg';
-import Hello from './Hello';
+import { Component } from 'react';
 import './App.css';
+import Product from './products/Product';
+import Counter from './Counter';
 
-function Name(props){
-  console.log(props);
-
-  return  (
-    <h4>
-  {props.text}
-  </h4>
-  );
-}
-
-class Surname extends Component{
-// constructor(props){
-//   super(props);
-// }
+class App extends Component {
 state = {
-  message: '',
-  hasClicked: false,
-};
-handleClick = ()=>{
-  this.setState({
-    hasClicked: true,
-  });
-
-if(this.state.message){
-  this.setState({
-    message: '',
-  });
+  amd: 0,
+  exchangeRate: 391,
+  products: [
+    {    
+    name:'banana', 
+    price:'5$', 
+    description: 'Fresh bananas from Ecuador'
+    },
+    {    
+      name:'apple', 
+      price:'8$', 
+      description: 'Golden apples'
+      },
+      {    
+        name:'pear', 
+        price:'8$', 
+        description: 'Sweet pears!'
+        },
+      {    
+        name:'plum', 
+        price:'4$', 
+        description: 'Sweet plums!'
+        },
+    ]
 }
-else {
-  this.setState({
-  message: 'Hello, I am a simple text!'
+handleInputChange = (event)=>{
+this.setState({
+  amd: event.target.value,
 });
+};
+
+
+render(){
+  const productComponents = this.state.products.map((product)=>{
+    return (
+      <Product 
+      key={product.name}
+      name={product.name} 
+      price={product.price} 
+      description={product.description}
+      />
+    )
+  });
+  console.log(productComponents);
+  const usd = (this.state.amd / this.state.exchangeRate).toFixed(2)
+
+    return (
+      <div className="App">
+      {productComponents}
+{
+  [<span key={2}>Text</span>, <span key={3}>Text</span>, <span key={9}>Text</span>]
 }
+      {
+        this.state.products.map((product)=>{
+          return (
+            <Product 
+            test={false}
+            key={product.name}
+            name={product.name} 
+            price={product.price} 
+            description={product.description}
+            />
+          )
+        })
+      }
 
+      <Counter />
 
-}
+     AMD: <input
+      type="number" 
+      placeholder='Input AMD'
+      onChange={this.handleInputChange}
+      /> 
+     = 
+     <input type="text" value={usd} readOnly={true}/>$
 
-  render(){
-// console.log('this.props', this.props);
-console.log(this.state);
-
-    return  (
-        <div>
-        <h3>
-        {this.props.text}
-        </h3>
-        <p className='text-red'>{this.state.message}</p>
-       <button onClick={this.handleClick}>Click me</button>
-
-        {
-          /*
-          this.state.hasClicked ? 
-          <h2 className='text-red'>Clicked!</h2> : 
-          <h6 className='text-green'>Not clicked yet!</h6>
-          */
-        }
-
-        { this.state.hasClicked && <h2 className='text-red'>Clicked!</h2>}
-        
-        </div>
+      </div>
     );
-  }
 }
 
-// function Surname(){
-//     return  (
-//       <h3>
-//       Smith
-//     </h3>
-//     );
-//   }
-
-
-
-function App() {
-
-  const message = 'Hello, I am your first React code.';
-console.log('logo', logo)
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Name text='John' test={true}/>
-        <Surname text='Doe' age={56} />
-        <Surname text='Alex' age={34}/>
-        <Surname text='Alice' age={12} message={message}/>
-
-
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-        {message}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
 }
 
 export default App;
