@@ -46,3 +46,10 @@
   color: green;
   /* font-size: 20px; */
 }
+
+.block{
+  border: 1px solid red;
+  width: 100px;
+  height: 100px;
+  margin: 5px auto;
+}

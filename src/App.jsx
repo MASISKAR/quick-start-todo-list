@@ -1,5 +1,8 @@
 import { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Container, Row, Col} from 'react-bootstrap';
 import './App.css';
+
 import Product from './products/Product';
 import Counter from './Counter';
 
@@ -10,22 +13,22 @@ state = {
   products: [
     {    
     name:'banana', 
-    price:'5$', 
+    price:'5', 
     description: 'Fresh bananas from Ecuador'
     },
     {    
       name:'apple', 
-      price:'8$', 
+      price:'8', 
       description: 'Golden apples'
       },
       {    
         name:'pear', 
-        price:'8$', 
+        price:'8', 
         description: 'Sweet pears!'
         },
       {    
         name:'plum', 
-        price:'4$', 
+        price:'4', 
         description: 'Sweet plums!'
         },
     ]
@@ -49,10 +52,66 @@ render(){
     )
   });
   console.log(productComponents);
-  const usd = (this.state.amd / this.state.exchangeRate).toFixed(2)
+  const usd = (this.state.amd / this.state.exchangeRate).toFixed(2);
 
     return (
       <div className="App">
+
+<Container>
+<Row >
+<Col md={6} xs={2}>
+  <div className="block">1</div>
+</Col>
+<Col md={6} xs={2}>
+  <div className="block">2</div>
+</Col>
+<Col md={6} xs={2}>
+  <div className="block">3</div>
+</Col>
+<Col md={6} xs={2}>
+  <div className="block">4</div>
+</Col>
+<Col md={6} xs={2}>
+  <div className="block">5</div>
+</Col>
+<Col xs={2}>
+  <div className="block">6</div>
+</Col >
+<Col xs={2}>
+  <div className="block">7</div>
+</Col>
+<Col>
+  <div className="block">8</div>
+</Col>
+<Col>
+  <div className="block">9</div>
+</Col>
+<Col>
+  <div className="block">10</div>
+</Col>
+</Row>
+
+</Container>
+
+
+
+
+
+      AMD: 
+      <input
+      type="number" 
+      placeholder='Input AMD'
+      value = {this.state.amd}
+      onChange={this.handleInputChange}
+      /> 
+     = 
+     <input type="text" value={usd} readOnly={true}/>$
+
+<hr />
+
+
+
+
       {productComponents}
 {
   [<span key={2}>Text</span>, <span key={3}>Text</span>, <span key={9}>Text</span>]
@@ -73,15 +132,9 @@ render(){
 
       <Counter />
 
-     AMD: <input
-      type="number" 
-      placeholder='Input AMD'
-      onChange={this.handleInputChange}
-      /> 
-     = 
-     <input type="text" value={usd} readOnly={true}/>$
 
       </div>
+
     );
 }
 

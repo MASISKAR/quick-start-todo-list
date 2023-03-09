@@ -1,12 +1,6 @@
 import { Component } from 'react';
 
 class Counter extends Component{
-// constructor(props){
-//     super(props);
-//     this.state = {
-//         text: props.name
-//     }
-// }
 
     state = {
         count:0,
@@ -15,16 +9,6 @@ class Counter extends Component{
    
 
     changeCounter = ()=>{
-        // this.setState(
-        //     (state)=>{
-        //         return {
-        //             count: state.count + 1,
-        //         };
-        // }, 
-        // ()=>{
-        //     console.log(this.state.count);
-        // });
-
         this.setState({
             count: this.state.count + 1,
         });
