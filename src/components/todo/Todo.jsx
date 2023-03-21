@@ -3,14 +3,33 @@ import { Container, Row, Col, InputGroup, Form, Button } from "react-bootstrap";
 import { idGenerator } from "../../utils/helpers";
 import Task from "../task/Task";
 import ConfirmDialog from "../ConfirmDialog";
-import styles from './todo.module.css';
+import styles from "./todo.module.css";
+import A from "../../demo/A";
 
 class Todo extends Component {
+  constructor(props) {
+    super(props);
+    console.log("Todo constructor");
+  }
+
   state = {
     tasks: [],
     newTaskTitle: "",
     selectedTasks: new Set(),
   };
+
+  componentDidMount() {
+    console.log("Todo componentDidMount");
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // if (prevState.tasks.length < this.state.tasks.length) {
+    //   console.log("A new task has been added");
+    // }
+    console.log("Todo componentDidUpdate");
+    // console.log("prevProps", prevProps);
+    // console.log("prevState", prevState);
+  }
 
   handleInputChange = (event) => {
     const newTaskTitle = event.target.value;
@@ -44,12 +63,12 @@ class Todo extends Component {
   };
 
   onTaskDelete = (taskId) => {
-    const {selectedTasks, tasks} = this.state;
-    const newTasks = tasks.filter(task => task.id !== taskId);
+    const { selectedTasks, tasks } = this.state;
+    const newTasks = tasks.filter((task) => task.id !== taskId);
 
-    const newState = {tasks: newTasks};
+    const newState = { tasks: newTasks };
 
-    if(selectedTasks.has(taskId)){
+    if (selectedTasks.has(taskId)) {
       const newSelectedTasks = new Set(selectedTasks);
       newSelectedTasks.delete(taskId);
       newState.selectedTasks = newSelectedTasks;
@@ -57,25 +76,24 @@ class Todo extends Component {
     this.setState(newState);
   };
 
-  onTaskSelect = (taskId)=>{
+  onTaskSelect = (taskId) => {
     const selectedTasks = new Set(this.state.selectedTasks);
-    if(selectedTasks.has(taskId)){
+    if (selectedTasks.has(taskId)) {
       selectedTasks.delete(taskId);
-    }
-    else {
+    } else {
       selectedTasks.add(taskId);
     }
     this.setState({ selectedTasks });
-  }
+  };
 
-  deleteSelectedTasks = ()=>{
-      const newTasks = [];
-      const {selectedTasks, tasks} = this.state;
-    
-    tasks.forEach((task)=>{
-          if(!selectedTasks.has(task.id)){
-            newTasks.push(task);
-          }
+  deleteSelectedTasks = () => {
+    const newTasks = [];
+    const { selectedTasks, tasks } = this.state;
+
+    tasks.forEach((task) => {
+      if (!selectedTasks.has(task.id)) {
+        newTasks.push(task);
+      }
     });
     this.setState({
       tasks: newTasks,
@@ -84,6 +102,7 @@ class Todo extends Component {
   };
 
   render() {
+    console.log("Todo render");
     const isAddNewTaskButtonDisabled = !this.state.newTaskTitle.trim();
 
     return (
@@ -109,6 +128,10 @@ class Todo extends Component {
         </Row>
         <Row>
           {this.state.tasks.map((task) => {
+            return <A key={task.id} />;
+          })}
+
+          {this.state.tasks.map((task) => {
             return (
               <Task
                 data={task}
@@ -120,14 +143,14 @@ class Todo extends Component {
           })}
         </Row>
         <Button
-        className={styles.deletSelected}
-        variant="danger"
-        onClick={this.deleteSelectedTasks}
-        disabled={!this.state.selectedTasks.size}
-      >
-        Delete selected
-      </Button>
-      <ConfirmDialog />
+          className={styles.deletSelected}
+          variant="danger"
+          onClick={this.deleteSelectedTasks}
+          disabled={!this.state.selectedTasks.size}
+        >
+          Delete selected
+        </Button>
+        <ConfirmDialog />
       </Container>
     );
   }
