@@ -96,7 +96,7 @@ const arr = useMemo(()=>{
 class A extends PureComponent {
 state ={
   showC: true,
-}
+};
   render() {
     return (
       <div>
