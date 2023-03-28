@@ -1,73 +1,112 @@
-import { Component, PureComponent } from "react";
+import { Component, PureComponent, useState, useEffect, useMemo } from "react";
 
 class B extends Component {
+state = {
+  value: '',
+  number: 12,
+};
+
   render() {
     return (
       <div>
-        <h4>{this.props.value}</h4>
+        <h4>Component B</h4>
         <input
           type="text"
+          value = {this.state.value}
           onChange={(event) => {
-            console.log("value from B", event.target.value);
-            this.props.onValueSend(event.target.value);
+            this.setState({
+                value: event.target.value
+            });
           }}
         />
+        <p>{this.state.value}</p>
       </div>
     );
   }
 }
 
-function C(props) {
-  return <h6>From C: {props.value}</h6>;
+function C() {
+  const [values, setValues] = useState({
+    value: '',
+    number: 12,
+  });
+
+
+
+const arr = useMemo(()=>{
+  const array = [];
+  for(let i=1; i<=10; i++){
+    console.log('i=', i);
+    array.push(
+      <button 
+      key={i}
+      className="btn btn-primary m-1"
+      >Button N {i}</button>
+      );
+  }
+  return array;
+}, []);
+
+  const [number, setNumber] = useState(0);
+  console.log('numbers', number);
+  useEffect(()=>{
+    console.log('useEffect componentDidMount');
+
+    return ()=>{
+      console.log('useEffect componentWillUnmount');
+    }
+  }, []);
+
+  useEffect(()=>{
+    console.log('useEffect componentDidMount, componentDidUpdate - number');
+  }, [number]);
+
+  useEffect(()=>{
+    console.log('useEffect componentDidMount, componentDidUpdate');
+  });
+
+  // useEffect(()=>{
+  //   console.log('useEffect componentDidUpdate');
+  // }, [values]);
+
+  return (
+    <div>
+    <h4>Component C</h4>
+    <input
+      type="text"
+      // value = {this.state.value}
+      onChange={(event) => {
+        setValues({
+          ...values,
+            value: event.target.value
+        });
+      }}
+    />
+    <button
+    onClick={()=>{
+      setNumber(number+1);
+    }}
+    >Number++</button>
+    <p>{values.value}</p>
+    {arr}
+  </div>
+  );
 }
 
 class A extends PureComponent {
-  constructor(props) {
-    super(props);
-    console.log("A constructor");
-  }
-
-  componentDidMount() {
-    console.log("A componentDidMount");
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    console.log("A componentDidUpdate");
-  }
-  componentWillUnmount() {
-    console.log("A componentWillUnmount");
-  }
-
-//   shouldComponentUpdate(newProps, newState) {
-//     // console.log('newState', newState)
-//     if (
-//       this.state.message !== newState.message ||
-//       this.state.text !== newState.text
-//     ) {
-//       return true;
-//     }
-//     return false;
-//   }
-
-  state = {
-    message: "Hello from A",
-    text: "",
-  };
-
+state ={
+  showC: true,
+}
   render() {
-    console.log("A render");
     return (
       <div>
-        <C value={this.state.text} />
-        <B
-          value={this.state.message}
-          onValueSend={(value) => {
-            console.log("value from A", value);
-            this.setState({
-              text: value,
-            });
-          }}
-        />
+      <B />
+      {this.state.showC && <C />}
+      <button
+      onClick={()=>{
+        this.setState({showC : !this.state.showC})
+      }}
+      >Toggle C</button>
       </div>
     );
   }
