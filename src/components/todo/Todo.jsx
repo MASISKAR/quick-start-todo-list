@@ -4,32 +4,33 @@ import { idGenerator } from "../../utils/helpers";
 import Task from "../task/Task";
 import ConfirmDialog from "../ConfirmDialog";
 import styles from "./todo.module.css";
-import A from "../../demo/A";
+// import A from "../../demo/A";
 
 class Todo extends Component {
-  constructor(props) {
-    super(props);
-    console.log("Todo constructor");
-  }
+  // constructor(props) {
+  //   super(props);
+  //   console.log("Todo constructor");
+  // }
 
   state = {
     tasks: [],
     newTaskTitle: "",
     selectedTasks: new Set(),
+    isConfirmDialogOpen: false
   };
 
-  componentDidMount() {
-    console.log("Todo componentDidMount");
-  }
+  // componentDidMount() {
+  //   console.log("Todo componentDidMount");
+  // }
 
-  componentDidUpdate(prevProps, prevState) {
-    // if (prevState.tasks.length < this.state.tasks.length) {
-    //   console.log("A new task has been added");
-    // }
-    console.log("Todo componentDidUpdate");
-    // console.log("prevProps", prevProps);
-    // console.log("prevState", prevState);
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   // if (prevState.tasks.length < this.state.tasks.length) {
+  //   //   console.log("A new task has been added");
+  //   // }
+  //   console.log("Todo componentDidUpdate");
+  //   // console.log("prevProps", prevProps);
+  //   // console.log("prevState", prevState);
+  // }
 
   handleInputChange = (event) => {
     const newTaskTitle = event.target.value;
@@ -98,12 +99,24 @@ class Todo extends Component {
     this.setState({
       tasks: newTasks,
       selectedTasks: new Set(),
+      isConfirmDialogOpen: false
     });
   };
 
+ openConfirmDialog = ()=>{
+    this.setState({
+      isConfirmDialogOpen: true
+    });
+  };
+  closeConfirmDialog = ()=>{
+    this.setState({
+      isConfirmDialogOpen: false
+    });
+  };
   render() {
-    console.log("Todo render");
-    const isAddNewTaskButtonDisabled = !this.state.newTaskTitle.trim();
+    // console.log("Todo render");
+    const {isConfirmDialogOpen, newTaskTitle, selectedTasks} = this.state;
+    const isAddNewTaskButtonDisabled = !newTaskTitle.trim();
 
     return (
       <Container>
@@ -128,10 +141,6 @@ class Todo extends Component {
         </Row>
         <Row>
           {this.state.tasks.map((task) => {
-            return <A key={task.id} />;
-          })}
-
-          {this.state.tasks.map((task) => {
             return (
               <Task
                 data={task}
@@ -145,12 +154,18 @@ class Todo extends Component {
         <Button
           className={styles.deletSelected}
           variant="danger"
-          onClick={this.deleteSelectedTasks}
-          disabled={!this.state.selectedTasks.size}
+          onClick={this.openConfirmDialog}
+          disabled={!selectedTasks.size}
         >
           Delete selected
         </Button>
-        <ConfirmDialog />
+        {isConfirmDialogOpen && 
+          <ConfirmDialog 
+          tasksCount={selectedTasks.size}
+          onCancel={this.closeConfirmDialog}
+          onSubmit={this.deleteSelectedTasks}
+          />
+        }
       </Container>
     );
   }

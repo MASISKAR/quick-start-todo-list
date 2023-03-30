@@ -1,4 +1,4 @@
-import { Component, PureComponent, useState, useEffect, useMemo } from "react";
+import { Component, PureComponent, useState, useEffect, useMemo, useCallback } from "react";
 
 class B extends Component {
 state = {
@@ -30,8 +30,6 @@ function C() {
     value: '',
     number: 12,
   });
-
-
 
 const arr = useMemo(()=>{
   const array = [];
@@ -65,6 +63,16 @@ const arr = useMemo(()=>{
     console.log('useEffect componentDidMount, componentDidUpdate');
   });
 
+  const handleChange = useCallback(()=>{
+     return (event) => {
+    setValues({
+      ...values,
+        value: event.target.value
+    });
+  }
+  }, [values]);
+  
+ 
   // useEffect(()=>{
   //   console.log('useEffect componentDidUpdate');
   // }, [values]);
@@ -75,12 +83,7 @@ const arr = useMemo(()=>{
     <input
       type="text"
       // value = {this.state.value}
-      onChange={(event) => {
-        setValues({
-          ...values,
-            value: event.target.value
-        });
-      }}
+      onChange={handleChange}
     />
     <button
     onClick={()=>{
