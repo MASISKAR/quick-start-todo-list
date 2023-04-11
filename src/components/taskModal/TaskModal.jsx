@@ -14,7 +14,7 @@ function TaskModal(props) {
     const newTask = {
       title: title.trim(),
       description: description.trim(),
-      // date: date.toLocaleDateString()
+      date: date.toISOString().slice(0, 10)
     };
       props.onSave(newTask);
   };
