@@ -5,6 +5,8 @@ import Task from "../task/Task";
 import ConfirmDialog from "../ConfirmDialog";
 import DeleteSelected from "../deleteSelected/DeleteSelected";
 import TaskModal from "../taskModal/TaskModal";
+import NavBar from "../NavBar/NavBar";
+import Filters from "../filters/Filters";
 import TaskApi from "../../api/taskApi";
 
 const taskApi = new TaskApi();
@@ -17,8 +19,12 @@ function Todo() {
   const [editableTask, setEditableTask] = useState(null);
 
   useEffect(() => {
-    taskApi.getAll().then((tasks) => {
+    taskApi.getAll()
+    .then((tasks) => {
       setTasks(tasks);
+    })
+    .catch((err) => {
+      toast.error(err.message);
     });
   }, []);
 
@@ -33,7 +39,6 @@ function Todo() {
         toast.success("The task has been added successfully!");
       })
       .catch((err) => {
-        console.log("err", err);
         toast.error(err.message);
       });
   };
@@ -104,8 +109,11 @@ function Todo() {
       .update(editedTask)
       .then((task) => {
         console.log("task", task);
-        // TODO find and replace the task in the state
+        const newTasks = [...tasks];
+        const foundIndex = newTasks.findIndex((t)=>t._id === task._id);
+        newTasks[foundIndex] = task;
         toast.success(`Tasks havs been updated successfully!`);
+        setTasks(newTasks);
         setEditableTask(null);
       })
       .catch((err) => {
@@ -115,6 +123,9 @@ function Todo() {
 
   return (
     <Container>
+    <Row>
+    <NavBar />
+    </Row>
       <Row className="justify-content-center m-3">
         <Col xs="6" sm="4" md="3">
           <Button variant="success" onClick={() => setIsAddTaskModalOpen(true)}>
@@ -133,6 +144,9 @@ function Todo() {
         </Col>
       </Row>
       <Row>
+      <Filters />
+      </Row>
+      <Row>
         {tasks.map((task) => {
           return (
             <Task
@@ -142,6 +156,7 @@ function Todo() {
               onTaskSelect={onTaskSelect}
               checked={selectedTasks.has(task._id)}
               onTaskEdit={setEditableTask}
+              onStatusChange={onEditTask}
             />
           );
         })}
