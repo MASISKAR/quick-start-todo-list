@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect, useEffect, useCallback } from "react";
+import { useState, useLayoutEffect, useEffect, memo } from "react";
 import { Form, Button, Modal } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import PropTypes from "prop-types";
@@ -16,10 +16,9 @@ function TaskModal(props) {
     if(data){
       setTitle(data.title);
       setDescription(data.description);
-      console.log('data.date', data.date)
       setDate(data.date ? new Date(data.date): new Date());
     }
-  }, []);
+  }, [props]);
 
   const saveTask = () => {
     const newTask = {
@@ -99,4 +98,4 @@ TaskModal.propTypes = {
   data: PropTypes.object
 };
 
-export default TaskModal;
+export default memo(TaskModal);
