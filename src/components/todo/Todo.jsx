@@ -18,14 +18,18 @@ function Todo() {
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
 
+const getTasks = (filters)=>{
+  taskApi.getAll(filters)
+  .then((tasks) => {
+    setTasks(tasks);
+  })
+  .catch((err) => {
+    toast.error(err.message);
+  });
+};
+
   useEffect(() => {
-    taskApi.getAll()
-    .then((tasks) => {
-      setTasks(tasks);
-    })
-    .catch((err) => {
-      toast.error(err.message);
-    });
+    getTasks();
   }, []);
 
   const onAddNewTask = (newTask) => {
@@ -121,6 +125,10 @@ function Todo() {
       });
   };
 
+  const onFilter = (filters)=>{
+    getTasks(filters);
+  };
+
   return (
     <Container>
     <Row>
@@ -144,7 +152,7 @@ function Todo() {
         </Col>
       </Row>
       <Row>
-      <Filters />
+      <Filters onFilter={onFilter}/>
       </Row>
       <Row>
         {tasks.map((task) => {
