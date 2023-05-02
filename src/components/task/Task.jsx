@@ -8,6 +8,7 @@ import {
   faCheck,
   faHistory
 } from "@fortawesome/free-solid-svg-icons";
+import {Link} from 'react-router-dom';
 import { formatDate } from "../../utils/helpers";
 import styles from "./task.module.css";
 
@@ -30,6 +31,9 @@ function Task(props) {
           <Card.Text>Status: {task.status}</Card.Text>
           <Card.Text>Created At: {formatDate(task.created_at)}</Card.Text>
           <Card.Text>Deadline: {formatDate(task.date)}</Card.Text>
+          <Link to={`/task/${task._id}`}>
+          <Card.Text>Show details</Card.Text>
+          </Link>
           <div className={styles.actionButtons}>
       {
         task.status === 'active' ?
