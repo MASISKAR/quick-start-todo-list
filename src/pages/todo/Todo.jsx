@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
-import Task from "../task/Task";
-import ConfirmDialog from "../ConfirmDialog";
-import DeleteSelected from "../deleteSelected/DeleteSelected";
-import TaskModal from "../taskModal/TaskModal";
-import NavBar from "../NavBar/NavBar";
-import Filters from "../filters/Filters";
+import Task from "../../components/task/Task";
+import ConfirmDialog from "../../components/ConfirmDialog";
+import DeleteSelected from "../../components/deleteSelected/DeleteSelected";
+import TaskModal from "../../components/taskModal/TaskModal";
+import Filters from "../../components/filters/Filters";
 import TaskApi from "../../api/taskApi";
 
 const taskApi = new TaskApi();
@@ -132,7 +131,6 @@ const getTasks = (filters)=>{
   return (
     <Container>
     <Row>
-    <NavBar />
     </Row>
       <Row className="justify-content-center m-3">
         <Col xs="6" sm="4" md="3">
