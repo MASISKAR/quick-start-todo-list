@@ -10,7 +10,6 @@ import Contact from "./pages/contact/Contact";
 import NavBar from "./components/navBar/NavBar";
 import SingleTask from "./pages/singleTask/SingleTask";
 import NotFound from "./pages/notFound/NotFound";
-import Flex from "./components/Flex";
 
 const pages = [
   {
@@ -44,35 +43,6 @@ function App() {
     <BrowserRouter>
       <main>
         <NavBar />
-
-        <Flex justifyContent="center" border={true}>
-          <div>test</div>
-          <span>test1</span>
-          <p>text example</p>
-          <button>just button</button>
-        </Flex>
-
-        <Flex justifyContent="left">
-          <div>test</div>
-          <span>test1</span>
-          <p>text example</p>
-          <button>just button</button>
-        </Flex>
-
-        <Flex justifyContent="right">
-          <div>test</div>
-          <span>test1</span>
-          <p>text example</p>
-          <button>just button</button>
-        </Flex>
-
-        <Flex>
-          <div>test</div>
-          <span>test1</span>
-          <p>text example</p>
-          <button>just button</button>
-        </Flex>
-
         <Routes>
           {pages.map((page) => (
             <Route key={page.path} path={page.path} element={page.element} />
