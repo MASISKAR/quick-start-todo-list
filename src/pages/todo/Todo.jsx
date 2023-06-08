@@ -7,6 +7,8 @@ import DeleteSelected from "../../components/deleteSelected/DeleteSelected";
 import TaskModal from "../../components/taskModal/TaskModal";
 import Filters from "../../components/filters/Filters";
 import TaskApi from "../../api/taskApi";
+import { useDispatch } from 'react-redux';
+import { setLoader } from '../redux/reducers/loaderSlice';
 
 const taskApi = new TaskApi();
 
@@ -16,20 +18,29 @@ function Todo() {
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
   const [editableTask, setEditableTask] = useState(null);
+  const dispatch = useDispatch();
 
 const getTasks = (filters)=>{
+  dispatch(setLoader(true));
   taskApi.getAll(filters)
   .then((tasks) => {
     setTasks(tasks);
   })
   .catch((err) => {
     toast.error(err.message);
+  })
+  .finally(()=>{
+    dispatch(setLoader(false));
   });
 };
 
   useEffect(() => {
     getTasks();
   }, []);
+
+  useEffect(() => {
+// dispatch tasks.length
+  }, [tasks.length]);
 
   const onAddNewTask = (newTask) => {
     taskApi
